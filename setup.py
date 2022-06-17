@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 
-description = "A compiler made in python"
+description = "Thijs van Straaten Compiler: Now only testing."
 long_description = description
 
 try:
@@ -16,7 +16,7 @@ finally:
 
 setup(
     name="tvsc",
-    version="0.0.001",
+    version="0.0.2",
     description=description,
     long_description=long_description,
     long_description_content_type="text/markdown",
