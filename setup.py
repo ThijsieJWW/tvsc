@@ -1,8 +1,10 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 
 description = "Thijs van Straaten Compiler: Now only testing."
 long_description = description
+
+version = "0.0.0"
 
 try:
     fp = open("README.md", "r")
@@ -13,10 +15,16 @@ except Exception as e:
 
 finally:
     fp.close()
+try:
+    from tvsc.settings import version as _ver
+
+    version = _ver
+except Exception as e:
+    print("Warning: version not loaded: " + str(e))
 
 setup(
     name="tvsc",
-    version="0.0.2",
+    version="0.0.14",
     description=description,
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -32,6 +40,6 @@ setup(
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Compilers",
     ],
-    packages=find_packages(),
-    entry_points={"console_scripts": ["tvsc = tvsc.__main__:main"]},
+    packages=["tvsc"],
+    entry_points={"console_scripts": ["tvsc = tvsc.term:main"]},
 )
