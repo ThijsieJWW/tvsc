@@ -4,7 +4,7 @@ from setuptools import setup
 description = "Thijs van Straaten Compiler: Now only testing."
 long_description = description
 
-version = "0.0.0"
+version = "0.0.164"
 
 try:
     fp = open("README.md", "r")
@@ -13,18 +13,10 @@ try:
 except Exception as e:
     print("Warning: long description not loaded: " + str(e))
 
-finally:
-    fp.close()
-try:
-    from tvsc.settings import version as _ver
-
-    version = _ver
-except Exception as e:
-    print("Warning: version not loaded: " + str(e))
 
 setup(
     name="tvsc",
-    version="0.0.14",
+    version=version,
     description=description,
     long_description=long_description,
     long_description_content_type="text/markdown",
