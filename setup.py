@@ -4,7 +4,7 @@ from setuptools import setup
 description = "Thijs van Straaten Compiler: Now only testing."
 long_description = description
 
-version = "0.0.165"
+version = "0.0.17"
 
 try:
     fp = open("README.md", "r")
