@@ -4,7 +4,7 @@ from setuptools import setup
 description = "Thijs van Straaten Compiler: Now only testing."
 long_description = description
 
-version = "0.0.164"
+version = "0.0.165"
 
 try:
     fp = open("README.md", "r")
@@ -32,6 +32,7 @@ setup(
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Compilers",
     ],
+    install_requires=["colorama"],
     packages=["tvsc"],
     entry_points={"console_scripts": ["tvsc = tvsc.term:main"]},
 )

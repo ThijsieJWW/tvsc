@@ -1,4 +1,9 @@
-default: build upload clean
+default: debug
+
+debug:
+	@pip install -e .
+
+dist: build upload clean
 
 build:
 	@python -m build

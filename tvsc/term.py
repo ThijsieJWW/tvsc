@@ -1,7 +1,8 @@
 from __future__ import annotations
+import logging
 import os
-from tabnanny import verbose
-from tvsc import settings, tools
+import sys
+from tvsc import settings, tools, compiler
 from tvsc.log import *
 import argparse
 
@@ -12,9 +13,15 @@ class Args(argparse.Namespace):
     verbose: bool | None
     uupdate: bool | None
     aupdate: bool | None
+    files: list[str]
 
 
 def main():
+    """
+    Gets called when tvsc is typed in the console.
+    this function is the entry point for the compiler.
+    """
+
     argparser = argparse.ArgumentParser(
         settings.name, description="Compiler for tvsl.", add_help=True
     )
@@ -35,6 +42,8 @@ def main():
         "--verbose", action="store_true", dest="verbose", help="shows extra information"
     )
 
+    argparser.add_argument("files", nargs="*", help="all the input files")
+
     argparser.add_argument(
         "--user-update",
         action="store_true",
@@ -52,8 +61,9 @@ def main():
     args: Args = argparser.parse_args()
     if args.debug:
         settings.debug = True
+        basicConfig(level=logging.DEBUG, format="%(message)s")
     else:
-        settings.debug = False
+        basicConfig(level=logging.INFO, format="%(message)s")
 
     if args.verbose:
         settings.verbose = True
@@ -64,16 +74,25 @@ def main():
         printf("{} {}", settings.name, settings.version)
         return
 
-    if args.uupdate:
+    elif args.uupdate:
         os.system(f"python -m pip install --upgrade --no-cache-dir tvsc")
         return
 
-    if args.aupdate:
+    elif args.aupdate:
         if tools.is_admin():
             os.system(f"python -m pip install --upgrade --no-cache-dir tvsc")
-            return
         else:
             error("admin privileges required for admin-update")
+            return
 
-    settings.initialized = True
-    debug("Arguments: {}", str(args))
+    else:
+        settings.files = args.files
+        settings.initialized = True
+        try:
+            compiler.compile(*settings.files)
+        except Exception as e:
+            if settings.debug:
+                fatal(str(e))
+            else:
+                error(str(e))
+            sys.exit(1)
